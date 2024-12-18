@@ -5,8 +5,6 @@ This module contains the functions to process the mapping and practice crosstab 
 import pandas as pd
 from loguru import logger
 
-placeholder_df = pd.DataFrame()
-
 
 def tidy_practice_level_data(practice_data: pd.DataFrame) -> pd.DataFrame:
     """
@@ -24,7 +22,26 @@ def tidy_practice_level_data(practice_data: pd.DataFrame) -> pd.DataFrame:
     """
     logger.info("Tidying the practice crosstab data.")
 
-    logger.warning("This function is not yet implemented.")
+    # Select the columns we want to use
+    practice_data = practice_data[
+        [
+            "APPOINTMENT_MONTH_START_DATE",
+            "GP_CODE",
+            "HCP_TYPE",
+            "APPT_MODE",
+            "NATIONAL_CATEGORY",
+            "TIME_BETWEEN_BOOK_AND_APPT",
+            "COUNT_OF_APPOINTMENTS",
+            "APPT_STATUS",
+        ]
+    ].copy(deep=True)
+
+    # Convert APPOINTMENT_MONTH_START_DATE to datetime
+    practice_data["APPOINTMENT_MONTH_START_DATE"] = pd.to_datetime(
+        practice_data["APPOINTMENT_MONTH_START_DATE"], format="%d%b%Y"
+    )  # 01JUL2024
+
+    return practice_data
 
 
 def merge_mapping_and_practice_data(
@@ -47,4 +64,11 @@ def merge_mapping_and_practice_data(
     """
     logger.info("Merging the mapping and practice data.")
 
-    logger.warning("This function is not yet implemented.")
+    merged_data = pd.merge(
+        left=practice_data,
+        right=mapping_data,
+        on="GP_CODE",
+        how="left",
+    )
+
+    return merged_data

@@ -21,11 +21,13 @@ def main() -> None:
     logger.level("START", no=15, color="<green><bold>")
     logger.log("START", "Starting the GP Appointment Data Pipeline")
 
-    data_in.read_mapping_data()
-    data_in.read_practice_crosstab_data()
+    mapping_data = data_in.read_mapping_data()
+    practice_crosstab_data = data_in.read_practice_crosstab_data()
 
-    processing.tidy_practice_level_data(placeholder_df)
-    processing.merge_mapping_and_practice_data(placeholder_df, placeholder_df)
+    tidy_practice_crosstab_data = processing.tidy_practice_level_data(practice_crosstab_data)
+    merged_practive_crosstab_data = processing.merge_mapping_and_practice_data(mapping_data=mapping_data, practice_data=tidy_practice_crosstab_data)
+
+    print(merged_practive_crosstab_data.info())
 
     aggregations.pivot_practice_level_data(placeholder_df)
     aggregations.summarize_monthly_gp_appointments(placeholder_df)

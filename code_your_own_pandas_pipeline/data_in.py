@@ -19,7 +19,7 @@ def read_mapping_data() -> pd.DataFrame:
         The mapping data.
     """
     file_path = RAW_DATA_DIR / "Mapping.csv"
-    
+
     logger.info(f"Reading mapping data from {file_path}")
 
     mapping_df = pd.read_csv(file_path)
@@ -39,7 +39,7 @@ def read_practice_crosstab_data() -> pd.DataFrame:
     file_paths = [
         "Practice_Level_Crosstab_Aug_24.csv",
         "Practice_Level_Crosstab_Jul_24.csv",
-        "Practice_Level_Crosstab_Sep_24.csv"
+        "Practice_Level_Crosstab_Sep_24.csv",
     ]
 
     practice_datasets = []
@@ -49,7 +49,7 @@ def read_practice_crosstab_data() -> pd.DataFrame:
 
         data = pd.read_csv(full_file_path)
         practice_datasets.append(data)
-    
+
     logger.info("Concatenating the practice crosstab datasets into one dataset")
     practice_crosstab_datasets = pd.concat(practice_datasets)
 
